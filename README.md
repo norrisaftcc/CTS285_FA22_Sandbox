@@ -21,3 +21,6 @@ The goal of this repo is to offer starting points for the 285 FA22 class project
 
 PyGameZero has a list of similar libraries at https://pygame-zero.readthedocs.io/en/stable/
 
+# I don't want a text-only game...
+OK. Dall-E-2 is now available to the public. Let it be your artist -- we'll cover how to include images once we have the basics set up. 
+Sign up at https://openai.com/dall-e-2/
