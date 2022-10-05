@@ -8,6 +8,7 @@ To familiarize yourself with the design and use of text adventures, I recommend 
 
 # Computer Science Concepts Involved 
 - Data Structures: Arrays, Lists, Trees, and Nodes
+  - Linked Lists (CS Dojo): https://youtu.be/WwfhLC16bis
 - Design Patterns: Message Dispatching
 
 # Projects
