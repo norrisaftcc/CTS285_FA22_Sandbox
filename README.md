@@ -1,6 +1,15 @@
 # CTS285_FA22_Sandbox
 Sandbox containing test projects for CTS285 FA22
 
+# Sample Projects (an idea of where we're headed)
+To familiarize yourself with the design and use of text adventures, I recommend the following:
+- Playing "The Cave of Magic DX" (about 5 minutes long): https://adventuron.itch.io/cavedx
+- Skimming over the Tutorial A of Adventuron Classroom (which builds the Cave of Magic game): https://adventuron.io/documentation/tutorial-a.html
+
+# Computer Science Concepts Involved 
+- Data Structures: Arrays, Lists, Trees, and Nodes
+- Design Patterns: Message Dispatching
+
 # Projects
 The goal of this repo is to offer starting points for the 285 FA22 class project. We'll start in Python and branch out as circumstances allow.
 
