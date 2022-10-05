@@ -9,7 +9,8 @@ To familiarize yourself with the design and use of text adventures, I recommend 
 # Computer Science Concepts Involved 
 - Data Structures: Arrays, Lists, Trees, and Nodes
   - Linked Lists (CS Dojo): https://youtu.be/WwfhLC16bis
-- Design Patterns: Message Dispatching
+- Design Patterns: Message, Command
+  - (videos TBA)
 
 # Projects
 The goal of this repo is to offer starting points for the 285 FA22 class project. We'll start in Python and branch out as circumstances allow.
