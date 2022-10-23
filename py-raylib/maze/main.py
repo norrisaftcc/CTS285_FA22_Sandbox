@@ -11,12 +11,15 @@ from pyray import *
 
 # data classes
 from levels import *
+from mazebuilders import *
 
 def main():
     # Initialization
     #--------------------------------------------------------------------------------------
-    screen_width = 800
-    screen_height = 450
+    #screen_width = 800
+    #screen_height = 450
+    screen_width = int(800 * 1.2)
+    screen_height = int(450 * 1.2)
     
     COLS = 16
     ROWS = 9
@@ -41,6 +44,9 @@ def main():
     #northCell.state.link("south", False) # unidirectional
     eastCell = level.getCellAt(0, 1)
     eastCell.state.link("west") # bidi by default
+    
+    sidewinder = Sidewinder(level)
+    sidewinder.build()
     
     #init_window(800, 450, "Hello")
     while not window_should_close():

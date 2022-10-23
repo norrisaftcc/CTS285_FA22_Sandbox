@@ -187,7 +187,7 @@ class MazeLevel:
                 if thisCell.border is not None:
                     draw_rectangle_lines(x+1, y+1, cellWidth-1, cellHeight-1, thisCell.border)
                 if thisCell.text is not None:
-                    draw_text(thisCell.text, x + 10 , y + 10, 20, BLACK)
+                    draw_text(thisCell.text, x + 1 + cellWidth // 4 , y + 1 + cellHeight // 4, 20, BLACK)
                 # draw the cell's exits
                 # we should shrink the drawn cell size to avoid overlaps
                 # calculate the exit size: 1/4 of the cell size 
