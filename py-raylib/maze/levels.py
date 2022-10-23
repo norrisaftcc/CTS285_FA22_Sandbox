@@ -21,6 +21,10 @@ class Cell:
         self.border = border
         self.background = background
         self.text = text
+    
+    def __str__(self):
+        return "Cell: "  + str(self.row) + ", "  + str(self.col) + "->" + str(self.state)
+        
         
 
 class Exits:
@@ -39,6 +43,9 @@ class Exits:
         self.southDest = None
         self.eastDest = None
         self.westDest = None
+    
+    def __str__(self):
+        return "" + "/N:" + str(self.north) + "/S:" + str(self.south) + "/E:" + str(self.east) + "/W:" + str(self.west)
         
     def link(self, direction, bidi = True):
         """ link an exit to a direction """
@@ -172,6 +179,7 @@ class MazeLevel:
         render the level to the screen
         we draw cells in read order (left to right, top to bottom)
         """
+        fontSize = 12
         for row in range(0, self.height):
             for col in range(0, self.width):
                 thisCell = self.getCellAt(row, col)
@@ -186,30 +194,70 @@ class MazeLevel:
                     draw_rectangle(x+1, y+1, cellWidth-1, cellHeight-1, thisCell.background)
                 if thisCell.border is not None:
                     draw_rectangle_lines(x+1, y+1, cellWidth-1, cellHeight-1, thisCell.border)
+                    draw_rectangle_lines(x, y, cellWidth, cellHeight, thisCell.border) # 2 pixel width border
                 if thisCell.text is not None:
-                    draw_text(thisCell.text, x + 1 + cellWidth // 4 , y + 1 + cellHeight // 4, 20, BLACK)
+                    draw_text(thisCell.text, x + 1 + cellWidth // 4 , y + 1 + cellHeight // 4, fontSize, DARKGRAY)
                 # draw the cell's exits
                 # we should shrink the drawn cell size to avoid overlaps
                 # calculate the exit size: 1/4 of the cell size 
-                topExitSize = cellWidth // 4
-                sideExitSize = cellHeight // 4
+                #topExitSize = cellWidth // 4
+                #sideExitSize = cellHeight // 4
+                # consider doors as holes in the walls of a cell that open it to neighbors
+                topDoorSize = int (cellWidth * 0.8)
+                topDoorWidth = 2
+                sideDoorSize = int (cellHeight * 0.8)
+                sideDoorWidth = 2
                 # for reference:
                 # the north exit spans from coordinates (x, y) to (x + cellWidth, y + exitSize)
                 # the south exit spans from coordinates (x, y + cellHeight - exitSize) to (x + cellWidth, y + cellHeight)
                 # the east exit spans from coordinates (x + cellWidth - exitSize, y) to (x + cellWidth, y + cellHeight)
                 # the west exit spans from coordinates (x, y) to (x + exitSize, y + cellHeight)
                 exitColor = self.defaultBackground
-                if thisCell.state.north == True:
-                    #draw_line(x+1, y+1, x + cellWidth-1, y-1, RED)
-                    #draw_line(x+topExitSize, y+1, x + cellWidth-topExitSize, y+1, exitColor)
-                    draw_rectangle(x+topExitSize, y, cellWidth-topExitSize*2, 2, exitColor)
-                if thisCell.state.south == True:
-                    #draw_line(x+topExitSize, y + cellHeight-1, x + cellWidth-topExitSize, y + cellHeight-1, exitColor)
-                    draw_rectangle(x+topExitSize, y + cellHeight-2, cellWidth-topExitSize*2, 2, exitColor)
-                if thisCell.state.east == True:
-                    #draw_line(x + cellWidth-1, y+sideExitSize, x + cellWidth-1, y + cellHeight-sideExitSize, exitColor)
-                    draw_rectangle(x + cellWidth-2, y+sideExitSize, 2, cellHeight-sideExitSize*2, exitColor)
-                if thisCell.state.west == True:
-                    #draw_line(x+1, y+sideExitSize, x+1, y + cellHeight-sideExitSize, exitColor)
-                    draw_rectangle(x, y+sideExitSize, 2, cellHeight-sideExitSize*2, exitColor)
+                DEBUG_WALLS = False
+                if DEBUG_WALLS == False:
+                    # draw walls using the background color
+                    if thisCell.state.north == True:
+                        #draw_line(x+1, y+1, x + cellWidth-1, y-1, RED)
+                        #draw_line(x+topExitSize, y+1, x + cellWidth-topExitSize, y+1, exitColor)
+                        #draw_rectangle(x+topExitSize, y, cellWidth-topExitSize*2, 2, exitColor)
+                        #draw the exit from the center of the north wall, reaching topExitSize/2 pixels each direction
+                        draw_rectangle((x + cellWidth // 2 - topDoorSize // 2), y, topDoorSize, topDoorWidth, exitColor)
+                    if thisCell.state.south == True:
+                        #draw_line(x+topExitSize, y + cellHeight-1, x + cellWidth-topExitSize, y + cellHeight-1, exitColor)
+                        #draw_rectangle(x+topExitSize, y + cellHeight-2, cellWidth-topExitSize*2, 2, exitColor)
+                        #draw the exit from the center of the south wall, reaching topExitSize/2 pixels each direction
+                        draw_rectangle((x + cellWidth // 2 - topDoorSize // 2), y + cellHeight - topDoorWidth, topDoorSize, topDoorWidth, exitColor)
+                    if thisCell.state.east == True:
+                        #draw_line(x + cellWidth-1, y+sideExitSize, x + cellWidth-1, y + cellHeight-sideExitSize, exitColor)
+                        #draw_rectangle(x + cellWidth-2, y+sideExitSize, 2, cellHeight-sideExitSize*2, exitColor)
+                        #draw the exit from the center of the east wall, reaching sideExitSize/2 pixels each direction
+                        draw_rectangle(x + cellWidth - sideDoorWidth, y + cellHeight // 2 - sideDoorSize // 2, sideDoorWidth, sideDoorSize, exitColor)
+                    if thisCell.state.west == True:
+                        #draw_line(x+1, y+sideExitSize, x+1, y + cellHeight-sideExitSize, exitColor)
+                        #draw_rectangle(x, y+sideExitSize, 2, cellHeight-sideExitSize*2, exitColor)
+                        #draw the exit from the center of the west wall, reaching sideExitSize/2 pixels each direction
+                        draw_rectangle(x, y + cellHeight // 2 - sideDoorSize // 2, sideDoorWidth, sideDoorSize, exitColor)
+                else:
+                    # draw each exit using a different color
+                    if thisCell.state.north == True:
+                        #draw_line(x+1, y+1, x + cellWidth-1, y-1, RED)
+                        #draw_line(x+topExitSize, y+1, x + cellWidth-topExitSize, y+1, exitColor)
+                        #draw_rectangle(x+topExitSize, y, cellWidth-topExitSize*2, 2, exitColor)
+                        #draw the exit from the center of the north wall, reaching topExitSize/2 pixels each direction
+                        draw_rectangle((x + cellWidth // 2 - topDoorSize // 2), y, topDoorSize, topDoorWidth, RED)
+                    if thisCell.state.south == True:
+                        #draw_line(x+topExitSize, y + cellHeight-1, x + cellWidth-topExitSize, y + cellHeight-1, exitColor)
+                        #draw_rectangle(x+topExitSize, y + cellHeight-2, cellWidth-topExitSize*2, 2, exitColor)
+                        #draw the exit from the center of the south wall, reaching topExitSize/2 pixels each direction
+                        draw_rectangle((x + cellWidth // 2 - topDoorSize // 2), y + cellHeight - topDoorWidth, topDoorSize, topDoorWidth, GREEN)
+                    if thisCell.state.east == True:
+                        #draw_line(x + cellWidth-1, y+sideExitSize, x + cellWidth-1, y + cellHeight-sideExitSize, exitColor)
+                        #draw_rectangle(x + cellWidth-2, y+sideExitSize, 2, cellHeight-sideExitSize*2, exitColor)
+                        #draw the exit from the center of the east wall, reaching sideExitSize/2 pixels each direction
+                        draw_rectangle(x + cellWidth - sideDoorWidth, y + cellHeight // 2 - sideDoorSize // 2, sideDoorWidth, sideDoorSize, YELLOW)
+                    if thisCell.state.west == True:
+                        #draw_line(x+1, y+sideExitSize, x+1, y + cellHeight-sideExitSize, exitColor)
+                        #draw_rectangle(x, y+sideExitSize, 2, cellHeight-sideExitSize*2, exitColor)
+                        #draw the exit from the center of the west wall, reaching sideExitSize/2 pixels each direction
+                        draw_rectangle(x, y + cellHeight // 2 - sideDoorSize // 2, sideDoorWidth, sideDoorSize, PURPLE)
                 
