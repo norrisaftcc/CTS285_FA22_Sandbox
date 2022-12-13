@@ -1,0 +1,4 @@
+# depslib dependency file v1.0
+1666455488 source:c:\dev\github\cts285_fa22_sandbox\cpp-raylib\templates\codeblocks\core_basic_window.c
+	"raylib.h"
+

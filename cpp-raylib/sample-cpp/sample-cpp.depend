@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1666456503 source:c:\dev\github\cts285_fa22_sandbox\cpp-raylib\sample-cpp\main.cpp
+	<iostream>
+	"raylib.h"
+
+1666456564 c:\dev\github\cts285_fa22_sandbox\cpp-raylib\sample-cpp\raylib.h
+	<stdarg.h>
+	<stdbool.h>
+
