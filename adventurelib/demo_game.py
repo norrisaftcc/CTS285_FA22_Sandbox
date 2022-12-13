@@ -40,6 +40,7 @@ def go(direction):
 
 
 @when('take ITEM')
+@when('get ITEM')
 def take(item):
     obj = current_room.items.take(item)
     if obj:
@@ -58,7 +59,6 @@ def drop(thing):
         say('You drop the %s.' % obj)
         current_room.items.add(obj)
 
-
 @when('look')
 def look():
     say(current_room)
@@ -66,7 +66,8 @@ def look():
         for i in current_room.items:
             say('A %s is here.' % i)
 
-
+@when('inv')
+@when('i')
 @when('inventory')
 def show_inventory():
     say('You have:')
