@@ -26,7 +26,7 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password, salt) VALUES (?, ?)",
+                    "INSERT INTO user (username, password, salt) VALUES (?, ?, ?)",
                     (username, generate_password_hash(password), "salt"),
                 )
                 db.commit()
@@ -43,6 +43,8 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
+        flash("Entering login POST method")
+        print("Entering login POST")
         username = request.form['username']
         password = request.form['password']
         db = get_db()
@@ -62,6 +64,7 @@ def login():
             return redirect(url_for('index'))
 
         flash(error)
+        print(error)
 
     return render_template('auth/login.html')
 

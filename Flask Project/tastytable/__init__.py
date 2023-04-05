@@ -1,9 +1,10 @@
 import os
 
-from flask import Flask, render_template, request, redirect, url_for 
+from flask import Flask, render_template, request, redirect, url_for
+#, redirect, url_for 
 # redirect, url_for should be imported in auth as per tutorial
-from . import db
-from . import auth
+#from . import db
+#from . import auth
 
 def create_app(test_config=None):
     # create and configure the app
@@ -88,8 +89,10 @@ def create_app(test_config=None):
         return render_template('register.html')
 
     # setup db
+    from . import db
     db.init_app(app)
     # register auth blueprint
+    from . import auth
     app.register_blueprint(auth.bp)
     return app
 
