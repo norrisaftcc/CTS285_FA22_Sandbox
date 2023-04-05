@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 from . import db
-
+from . import auth
 
 def create_app(test_config=None):
     # create and configure the app
@@ -26,13 +26,70 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/')
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+    # moved from app.py
+    @app.route('/')
+    def index():
+        return redirect(url_for('home'))
+
+    @app.route('/home')
+    def home():
+        # our wireframe flow is: home (not logged in) -> login -> home (logged in)
+        # see flask.palletsprojects.com -> tutorial -> "require authentication" (i think)
+        # for now, just view home page
+        return render_template('home.html')
+
+    #moved to auth.py
+    #@app.route('/login', methods=['GET', 'POST'])
+    def login():
+        # note: with the change to home being the first page visited,
+        # the login form needs to direct to home, or maybe home_loggedin, idk
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            if check_user(username, password):
+                return redirect(url_for('secret'))
+            else:
+                return 'Invalid username/password combination'
+        return render_template('login.html')
+
+    @app.route('/secret')
+    def secret():
+        return 'You have logged in successfully!'
+
+    def add_user(username, password):
+        with open('users.pkl', 'ab') as f:
+            pickle.dump({username: password}, f)
+
+    def check_user(username, password):
+        with open('users.pkl', 'rb') as f:
+            while True:
+                try:
+                    user = pickle.load(f)
+                    if username in user and user[username] == password:
+                        return True
+                except EOFError:
+                    break
+        return False
+
+    # register is now in auth.py    
+    #@app.route('/register', methods=['GET', 'POST'])
+    def register():
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            if check_user(username, password):
+                return 'User already exists'
+            add_user(username, password)
+            return redirect(url_for('login'))
+        return render_template('register.html')
 
     # setup db
     db.init_app(app)
+    # register auth blueprint
+    app.register_blueprint(auth.bp)
     return app
 
     
