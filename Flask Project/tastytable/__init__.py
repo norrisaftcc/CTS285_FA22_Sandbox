@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for 
+# redirect, url_for should be imported in auth as per tutorial
 from . import db
 from . import auth
 
