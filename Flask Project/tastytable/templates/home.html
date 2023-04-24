@@ -3,7 +3,9 @@
 <head>
   <title>Our Team | Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename="css/cyborg/bootstrap.min.css") }}"> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename="css/bootstrap.min.css") }}">
   <style>
     .team-member {
       padding: 20px;
@@ -53,6 +55,9 @@
 			<li class="nav-item">
             <a class="nav-link" href="/auth/login">Login</a>
           </li>
+      <li class="nav-item">
+            <a class="nav-link" href="/auth/register">Register</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -74,8 +79,8 @@
       </div>
       <div class="col-md-4">
         <div class="team-member">
-          <img src="images/food-image.jpg" alt="Jane Doe">
-          <h2>Jane Doe</h2>
+          <img src={{ url_for('static', filename="harold.jpg") }} alt="John Doe">
+          <h2>John Doe</h2>
           <h3>CFO</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor augue in mi maximus, sed elementum justo volutpat.</p>
         </div>
