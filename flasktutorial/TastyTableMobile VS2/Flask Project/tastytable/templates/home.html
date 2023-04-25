@@ -4,6 +4,7 @@
   <title>Our Team | Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+  <!--missing quotes around the filename causes error 500 -- python error bootstrap not defined -->
   <link rel="stylesheet" href="{{ url_for('static' , filename = "css/bootstrap.min.css") }}"> 
   <style>
     .team-member {
@@ -56,7 +57,7 @@
             <a class="nav-link" href="/auth/login">Login</a>
           </li>
 			<li class="nav-item">
-            <a class="nav-link" href="/auth/register">Resgister</a>
+            <a class="nav-link" href="/auth/register">Register</a>
           </li>
         </ul>
       </div>
