@@ -42,6 +42,7 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
+        print("Entering login as post")
         username = request.form['username']
         password = request.form['password']
         db = get_db()
@@ -62,6 +63,8 @@ def login():
 
         #flash(error)
         print(error)
+        print("Leaving login as post")
+    print("Entered login as get")
     return render_template('auth/login.html')
     
     

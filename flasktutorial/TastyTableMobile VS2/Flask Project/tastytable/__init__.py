@@ -93,10 +93,10 @@ def create_app(test_config=None):
 
     from . import blog
     app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='index')
+    app.add_url_rule('/', endpoint='index') # should be /blog/ ?
 
     #from . import recipe
     #app.register_blueprint(recipe.bp)
-    #app.add_url_rule('/', endpoint='index')
+    #app.add_url_rule('/', endpoint='index') # should be /recipe
 
     return app
