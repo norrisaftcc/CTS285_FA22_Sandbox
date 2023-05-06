@@ -1,0 +1,65 @@
+REPL at https://replit.com/join/drcgywxpdy-ftccprogramming
+
+
+Module Seven covers graphs.
+
+Assignments:
+
+CH10A
+CH10B
+M7T1
+
+
+M7T1 - Graph Example
+
+
+The general case for the "adventure" or "choice" data structure we've been describing is a graph.
+
+
+In this program, we'll first get the example running, and then create a new graph (first as an image, then in code).
+
+
+
+
+
+Part 1 - Example Graph
+
+
+Image: 
+
+ 
+
+
+Code: (repl link) https://replit.com/join/dvblmnfybg-ftccprogramming (source files) 
+Graph.h
+main.cpp
+ 
+
+
+Part 2 - Student Graph
+
+
+For this portion you will first create your own graph, then modify the program to implement that graph in C++.
+
+
+You can get an image of the graph in a few ways:
+
+
+Draw it by hand, and take a photo
+
+Use a program like draw.io to create it
+
+Ask an AI (LLM or image creator) to make it
+
+Take an image (for example, from Google Maps) and highlight the vertexes and edges
+
+
+You'll need to decide these things:
+
+
+What are the nodes (vertexes) and how are they labeled (number, name, etc.)
+
+What are the edges and how are they labeled (weight, direction, type, etc.)
+
+
+If you change weights to a string, you'll need to modify Graph.h (we'll cover this in class).
