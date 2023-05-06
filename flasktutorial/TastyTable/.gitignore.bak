@@ -62,8 +62,7 @@ db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
-# i actually DO want to save the instance - norrisa
-# instance/
+instance/
 .webassets-cache
 
 # Scrapy stuff:
