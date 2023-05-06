@@ -10,3 +10,6 @@ next, add recipes.
 
 /recipe/ doesn't work, and you would expect that since it renders template recipe/index.html which doesnt exist.
 
+now working out of cts285_sandbox/flasktutorial/TastyTable (officialy forked from vi's code)
+removed /instance from .gitignore -- I get why it's done that way but I want it backed up.
+

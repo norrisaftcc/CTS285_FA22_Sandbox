@@ -5,3 +5,8 @@
 check vi's .gitignore -- did not have virtualenv or the database
 (using a copy from cts285_sandbox but need to sync it -- get the schema)
 
+rerunning the schema.sql step by step, recreated empty db.
+next, add recipes.
+
+/recipe/ doesn't work, and you would expect that since it renders template recipe/index.html which doesnt exist.
+
