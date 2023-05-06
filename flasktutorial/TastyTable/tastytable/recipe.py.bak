@@ -11,7 +11,7 @@ from tastytable.db import get_db
 
 # like blog, we don't host this BP at '/' but at '/recipe'
 
-bp = Blueprint('recipe', __name__,url_prefix='/recipe')
+bp = Blueprint('recipe', __name__, ,url_prefix='/recipe')
 
 # 2. Define the index view function.
 @bp.route('/')

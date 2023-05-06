@@ -8,5 +8,15 @@ check vi's .gitignore -- did not have virtualenv or the database
 rerunning the schema.sql step by step, recreated empty db.
 next, add recipes.
 
-/recipe/ doesn't work, and you would expect that since it renders template recipe/index.html which doesnt exist.
 
+now working out of cts285_sandbox/flasktutorial/TastyTable (officialy forked from vi's code)
+removed /instance from .gitignore -- I get why it's done that way but I want it backed up.
+
+--
+6pm
+
+/recipe/ doesn't work, and you would expect that since it renders template recipe/index.html which doesnt exist.
+it should look like the blog index except that it reflects the recipe table columns (not yet the FK stuff)
+127.0.0.1 - - [06/May/2023 18:16:17] "GET /recipe HTTP/1.1" 404 -
+well, once you notice that the recipe blueprint was commented out of __init__.py it makes sense.
+changed the sql call in recipe/ to match the current schema (minus the FKs other than user)
