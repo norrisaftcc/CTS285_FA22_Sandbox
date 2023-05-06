@@ -20,3 +20,5 @@ it should look like the blog index except that it reflects the recipe table colu
 127.0.0.1 - - [06/May/2023 18:16:17] "GET /recipe HTTP/1.1" 404 -
 well, once you notice that the recipe blueprint was commented out of __init__.py it makes sense.
 changed the sql call in recipe/ to match the current schema (minus the FKs other than user)
+
+recipe/ now works. update the template and add a sample recipe to test it (after commit and push)
