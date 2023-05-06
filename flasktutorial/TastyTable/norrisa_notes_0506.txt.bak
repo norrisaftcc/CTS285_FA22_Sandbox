@@ -1,0 +1,7 @@
+
+
+05/06/2023
+
+check vi's .gitignore -- did not have virtualenv or the database
+(using a copy from cts285_sandbox but need to sync it -- get the schema)
+
