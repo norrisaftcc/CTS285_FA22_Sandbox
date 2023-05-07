@@ -22,3 +22,31 @@ well, once you notice that the recipe blueprint was commented out of __init__.py
 changed the sql call in recipe/ to match the current schema (minus the FKs other than user)
 
 recipe/ now works. update the template and add a sample recipe to test it (after commit and push)
+--
+
+recipe
+
+INSERT INTO recipe (author_id, title, body) VALUES (1, "boil water", "how to boil water");
+as recipe id 1
+
+INSERT INTO steps (recipe_id_fk, step_num, description)
+VALUES (1, 1, "Heat water until it boils.");
+
+INSERT INTO ingredients (type) VALUES ("water");
+
+INSERT INTO recipe_ingredients(recipe_id_fk, ingredient_id_fk, quantity, measure_type)
+VALUES (1, 2, 1, "cup");
+
+
+# had to recreate recipe_ingredients as table is misspelled
+CREATE TABLE "recipe_ingredients" (
+	"recipe_id_fk"	INTEGER NOT NULL,
+	"ingredient_id_fk"	INTEGER NOT NULL,
+	"quantity"	INTEGER NOT NULL,
+	"measure_type"	TEXT NOT NULL,
+	FOREIGN KEY("recipe_id_fk") REFERENCES "recipe"("id")
+);
+# or i would but it didnt work... wait on it
+
+INSERT INTO recipe_ingredents(recipe_id_fk, ingredent_id_fk, quantity, measure_type)
+VALUES (1, 1, 1, "cup");

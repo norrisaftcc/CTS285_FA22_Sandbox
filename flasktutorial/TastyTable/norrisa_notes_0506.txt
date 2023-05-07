@@ -50,3 +50,8 @@ CREATE TABLE "recipe_ingredients" (
 
 INSERT INTO recipe_ingredents(recipe_id_fk, ingredent_id_fk, quantity, measure_type)
 VALUES (1, 1, 1, "cup");
+
+9pm 
+added /recipe/recipe.html which is rendered by /recipe/view/<int:id>
+and it even shows up but as 
+<sqlite3.Row object at 0x0000018D81D9BA70>

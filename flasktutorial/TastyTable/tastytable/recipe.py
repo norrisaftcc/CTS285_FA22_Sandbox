@@ -41,8 +41,15 @@ def view_recipe(id):
     recipe = get_recipe(id)
     
     # now retrieve ingredients and steps for this recipe
+    
     ingredients=["ingredient 1", "ingredient 2"]
-    steps=["step 1", "step 2"]
+    """steps=["step 1", "step 2"]"""
+    steps = db.execute(
+        'SELECT s.recipe_id_fk, step_num, description'
+        ' FROM steps s JOIN recipe r ON s.recipe_id_fk = r.id'
+        ' ORDER BY step_num ASC'
+    ).fetchall()
+    
     return render_template('recipe/recipe.html', recipe=recipe, ingredients=ingredients, steps=steps)
 
 # 3. Define the create view function.
