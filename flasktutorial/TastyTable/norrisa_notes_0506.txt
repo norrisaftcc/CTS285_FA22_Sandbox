@@ -92,3 +92,36 @@ just make recipe_ingredients a plain join to recipe, like steps.
 this is known to work.
 making the changes in a new copy of the database: 
 /instance/tastytable.sqlite
+
+dropped recipe_ingredents
+added recipe_ingredients as follows:
+CREATE TABLE recipe_ingredients
+(recipe_id_fk INTEGER NOT NULL,
+id INTEGER NOT NULL,
+name TEXT NOT NULL,
+quantity INTEGER NOT NULL,
+measure_type TEXT NOT NULL,
+FOREIGN KEY (recipe_id_fk) REFERENCES recipe (id)
+);
+this removes the bridge table and just does it all in here.
+
+-- now inserting data --
+
+INSERT INTO recipe_ingredients (recipe_id_fk, id, name, quantity, measure_type)
+VALUES (1, 1, "water", 1, "cup");
+
+SELECT ri.recipe_id_fk, name, quantity, measure_type
+    FROM recipe_ingredients ri JOIN recipe r on ri.recipe_id_fk = r.id;
+	
+this returns 1 row as expected, so let's add the python code:
+# (recipe.py, view method)
+    ingredients = db.execute(
+    """
+    SELECT ri.recipe_id_fk, name, quantity, measure_type
+    FROM recipe_ingredients ri JOIN recipe r on ri.recipe_id_fk = r.id
+    """).fetchall()
+# result:
+some changes to recipe.py and view.html, and it works as of 1:29pm 5/7.
+
+
+

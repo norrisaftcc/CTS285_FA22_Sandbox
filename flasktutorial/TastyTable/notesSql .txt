@@ -34,3 +34,54 @@ INSERT INTO ingredients (type) VALUES("water");
 @ user manual, and a little text about it
 @dictionary showing my schema
 @and do a demo live.
+
+----
+notes 5/6 from binggpt and chatgpt
+--- notes begin --
+# now retrieve ingredients and steps for this recipe
+    
+    """ingredients=["ingredient 1", "ingredient 2"]"""
+    # how do i do a double join from a bridge table?
+    """ bing gpt suggests
+    SELECT recipe_ingredents.quantity, ingredients.type AS ingredient_name, recipe_ingredents.measure_type
+    FROM recipe
+    JOIN recipe_ingredents ON recipe.id = recipe_ingredents.recipe_id_fk
+    JOIN ingredients ON recipe_ingredents.ingredent_id_fk = ingredients.id_pk;
+    and well, it works in sqlite, but running this below returns an empty resultset
+    
+    chatgpt has this instead:
+    SELECT ri.quantity || ' ' || ri.measure_type || ' ' || i.type AS ingredient
+    FROM recipe_ingredients ri
+    JOIN ingredients i ON ri.ingredent_id_fk = i.id_pk
+    JOIN recipe r ON ri.recipe_id_fk = r.id
+    WHERE r.id = <your_recipe_id>;
+
+    """
+    #ingredients = db.execute(
+    #    """
+    #    SELECT ri.quantity || ' ' || ri.measure_type || ' ' || i.type AS ingredient
+    #    FROM recipe_ingredents ri
+    #    JOIN ingredients i ON ri.ingredent_id_fk = i.id_pk
+    #    JOIN recipe r ON ri.recipe_id_fk = r.id
+    #    WHERE r.id = ?
+    #    """,(id,)).fetchall()
+    #    """
+    # chatgpt's take
+    ingredients = db.execute("""SELECT recipe_ingredents.quantity, 
+        recipe_ingredents.measure_type, ingredients.type 
+        FROM recipe 
+        JOIN recipe_ingredents ON recipe.id = recipe_ingredents.recipe_id_fk 
+        JOIN ingredients ON recipe_ingredents.ingredent_id_fk = ingredients.id_pk 
+        WHERE recipe.id = ?""", (id,)).fetchall()
+
+-- notes end --
+
+in the end was removed and went with this:
+CREATE TABLE recipe_ingredients
+(recipe_id_fk INTEGER NOT NULL,
+id INTEGER NOT NULL,
+name TEXT NOT NULL,
+quantity INTEGER NOT NULL,
+measure_type TEXT NOT NULL,
+FOREIGN KEY (recipe_id_fk) REFERENCES recipe (id)
+);

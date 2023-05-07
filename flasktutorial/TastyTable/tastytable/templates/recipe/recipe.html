@@ -114,7 +114,7 @@
   
     <article class="recipe">
       <header>
-        <div>
+        <div class="container">
           <h1>{{ recipe['title'] }}</h1>
           <div class="about">by {{ recipe['username'] }} on {{ recipe['created'].strftime('%Y-%m-%d') }}</div>
         </div>
@@ -122,12 +122,14 @@
       </header>
       <p class="body">{{ recipe['body'] }}</p>
 	  <!-- now list ingredients -->
+	  <span><b>Ingredients:</b></span>
     <ul>
 	  {% for ingredient in ingredients %}
-    <li>{{ingredient}}</li>
+    <li>{{ingredient['quantity']}} {{ingredient['measure_type']}} {{ingredient['name']}}</li>
 	  {% endfor %}
   </ul>
 	  <!-- now list steps -->
+	  <span><b>Steps:</b></span>
     <ul>
 	  {% for step in steps %}
     <p>{{step['step_num']}}:{{step['description']}}</p>

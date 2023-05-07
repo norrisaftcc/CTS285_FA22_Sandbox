@@ -39,34 +39,27 @@ def index():
 def view_recipe(id):
     db = get_db()
     recipe = get_recipe(id)
-    
-    # now retrieve ingredients and steps for this recipe
-    
-    """ingredients=["ingredient 1", "ingredient 2"]"""
-    # how do i do a double join from a bridge table?
-    """ bing gpt suggests
-    SELECT recipe_ingredents.quantity, ingredients.type AS ingredient_name, recipe_ingredents.measure_type
-    FROM recipe
-    JOIN recipe_ingredents ON recipe.id = recipe_ingredents.recipe_id_fk
-    JOIN ingredients ON recipe_ingredents.ingredent_id_fk = ingredients.id_pk;
-    well that didnt work
-    """
     ingredients = db.execute(
-        "SELECT recipe_ingredents.quantity, ingredients.type AS ingredient_name, recipe_ingredents.measure_type"
-        "FROM recipe"
-        "JOIN recipe_ingredents ON recipe.id = recipe_ingredents.recipe_id_fk"
-        "JOIN ingredients ON recipe_ingredents.ingredent_id_fk = ingredients.id_pk"
-    ).fetchall()
+    """
+    SELECT ri.recipe_id_fk, name, quantity, measure_type
+    FROM recipe_ingredients ri JOIN recipe r on ri.recipe_id_fk = r.id
+    """).fetchall()
+    
+    #ingredients = ['1 cup water', '1 ea match']
+    print("ingredients count:", len(ingredients))
     for ingredient in ingredients:
-        print(ingredient['ingredient_name'],ingredient['quantity'])
+        #print(ingredient)
+        #print(ingredient['ingredient'])
+        print(ingredient['quantity'],ingredient['measure_type'], ingredient['type'])
     #steps=["step 1", "step 2"]
     steps = db.execute(
         'SELECT s.recipe_id_fk, step_num, description'
         ' FROM steps s JOIN recipe r ON s.recipe_id_fk = r.id'
         ' ORDER BY step_num ASC'
     ).fetchall()
-    #for step in steps:
-    #    print(step['description'])
+    print("steps:")
+    for step in steps:
+        print(step['description'])
     return render_template('recipe/recipe.html', recipe=recipe, ingredients=ingredients, steps=steps)
 
 # 3. Define the create view function.
