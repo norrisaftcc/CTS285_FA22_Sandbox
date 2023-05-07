@@ -68,8 +68,9 @@ def view_recipe(id):
 def create():
     if request.method == 'POST':
         title = request.form['title']
-        description = request.form['description']
-        instructions = request.form['instructions']
+        description = request.form['body']
+        ingredients = request.form['ingredients']
+        steps = request.form['steps']
         error = None
 
         if not title:
@@ -80,11 +81,24 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO recipe (title, description, instructions, author_id)'
-                ' VALUES (?, ?, ?, ?)',
-                (title, description, instructions, g.user['id'])
+                'INSERT INTO recipe (title, body, author_id)'
+                ' VALUES (?, ?, ?)',
+                (title, description, g.user['id'])
             )
             db.commit()
+            # get the id of the newly added recipe
+            recipe = db.execute(
+            """SELECT r.id
+            FROM recipe r 
+            WHERE r.title = ?
+            """,
+            (title)
+            ).fetchone()
+            print("Inserted this recipe:", recipe['id'], recipe['title'], recipe['body'])
+            # next, split up the ingredients and insert them
+            # for now, just insert as one ingredient
+            
+            # next, split up the steps and insert them
             return redirect(url_for('recipe.index'))
 
     return render_template('recipe/create.html')
@@ -98,7 +112,7 @@ def update(id):
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
-        instructions = request.form['instructions']
+        instructions = request.form['steps']
         error = None
 
         if not title:
