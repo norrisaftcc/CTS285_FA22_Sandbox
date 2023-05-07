@@ -29,7 +29,21 @@ def index():
         ' FROM recipe r JOIN user u ON r.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
+
+    
     return render_template('recipe/index.html', recipes=recipes)
+    
+# define the "view individual recipe" function
+
+@bp.route('/view/<int:id>')
+def view_recipe(id):
+    db = get_db()
+    recipe = get_recipe(id)
+    
+    # now retrieve ingredients and steps for this recipe
+    ingredients=["ingredient 1", "ingredient 2"]
+    steps=["step 1", "step 2"]
+    return render_template('recipe/recipe.html', recipe=recipe, ingredients=ingredients, steps=steps)
 
 # 3. Define the create view function.
 @bp.route('/create', methods=('GET', 'POST'))
@@ -100,7 +114,7 @@ def delete(id):
 # 6. Create a helper function, get_recipe(), to avoid code duplication.
 def get_recipe(id, check_author=True):
     recipe = get_db().execute(
-        'SELECT r.id, title, description, instructions, created, author_id, username'
+        'SELECT r.id, title, body, created, author_id, username'
         ' FROM recipe r JOIN user u ON r.author_id = u.id'
         ' WHERE r.id = ?',
         (id,)
@@ -130,3 +144,27 @@ def search():
         return render_template('recipe/search.html', recipes=recipes, search_query=search_query)
 
     return render_template('recipe/search.html')
+
+
+"""
+chatgpt4's take on adding a single page view for recipe
+
+@app.route('/recipe/<int:recipe_id>')
+
+def recipe(recipe_id):
+
+  # Retrieve the recipe from the database using recipe_id
+
+  recipe = db.get_recipe_by_id(recipe_id)
+
+
+  # Split the ingredients and steps strings into lists
+
+  recipe['ingredients'] = recipe['ingredients'].split('\n')
+
+  recipe['steps'] = recipe['steps'].split('\n')
+
+
+  return render_template('recipe.html', recipe=recipe)
+  
+"""
