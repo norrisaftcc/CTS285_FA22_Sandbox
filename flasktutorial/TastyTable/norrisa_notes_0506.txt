@@ -61,3 +61,34 @@ hacked it to just use a single string per ingredients, not a bridge table. that 
 
 however, here's the chatgpt convo that almost worked:
 ----
+Thanks for providing the table schema. To retrieve a list of ingredients in the format "1 cup sugar", you would indeed need to perform a double join between the recipe_ingredients and ingredients tables.
+
+Here's an example query that should do what you're looking for:
+
+SELECT ri.quantity || ' ' || ri.measure_type || ' ' || i.type AS ingredient
+FROM recipe_ingredients ri
+JOIN ingredients i ON ri.ingredent_id_fk = i.id_pk
+JOIN recipe r ON ri.recipe_id_fk = r.id
+WHERE r.id = <your_recipe_id>;
+
+(that sql works btw)
+
+In this query, we join the recipe_ingredients table with the ingredients table on the ingredent_id_fk and id_pk columns, respectively. We also join the recipe table on the recipe_id_fk and id columns to ensure we're retrieving ingredients for a specific recipe.
+
+Then, we use the quantity and measure_type columns from the recipe_ingredients table and the type column from the ingredients table to build the desired string format for each ingredient.
+
+Finally, we add a WHERE clause to filter the query results by a specific recipe ID. Replace <your_recipe_id> with the actual ID of the recipe you want to retrieve ingredients for.
+
+or alternately: 
+SELECT recipe_ingredents.quantity || ' ' || recipe_ingredents.measure_type || ' ' || ingredients.type AS ingredient
+FROM recipe
+JOIN recipe_ingredents ON recipe.id = recipe_ingredents.recipe_id_fk
+JOIN ingredients ON recipe_ingredents.ingredent_id_fk = ingredients.id_pk
+WHERE recipe.id = <your_recipe_id>;
+
+--
+5/7
+just make recipe_ingredients a plain join to recipe, like steps. 
+this is known to work.
+making the changes in a new copy of the database: 
+/instance/tastytable.sqlite
