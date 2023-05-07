@@ -121,7 +121,7 @@
           <div class="about">by {{ recipe['username'] }} on {{ recipe['created'].strftime('%Y-%m-%d') }}</div>
         </div>
         {% if g.user['id'] == recipe['author_id'] %}
-          <a class="action" href="{{ url_for('recipe.update', id=post['id']) }}">Edit</a>
+          <a class="action" href="{{ url_for('recipe.update', id=recipe['id']) }}">Edit</a>
         {% endif %}
       </header>
       <p class="body">{{ recipe['body'] }}</p>
