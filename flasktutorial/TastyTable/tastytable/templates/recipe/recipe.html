@@ -122,13 +122,17 @@
       </header>
       <p class="body">{{ recipe['body'] }}</p>
 	  <!-- now list ingredients -->
+    <ul>
 	  {% for ingredient in ingredients %}
-    <p>{{ingredient}}</p>
+    <li>{{ingredient}}</li>
 	  {% endfor %}
+  </ul>
 	  <!-- now list steps -->
+    <ul>
 	  {% for step in steps %}
-    <p>{{step}}</p>
+    <p>{{step['step_num']}}:{{step['description']}}</p>
 	  {% endfor %}
+  </ul>
     </article>
 
  

@@ -42,14 +42,54 @@ def view_recipe(id):
     
     # now retrieve ingredients and steps for this recipe
     
-    ingredients=["ingredient 1", "ingredient 2"]
-    """steps=["step 1", "step 2"]"""
+    """ingredients=["ingredient 1", "ingredient 2"]"""
+    # how do i do a double join from a bridge table?
+    """ bing gpt suggests
+    SELECT recipe_ingredents.quantity, ingredients.type AS ingredient_name, recipe_ingredents.measure_type
+    FROM recipe
+    JOIN recipe_ingredents ON recipe.id = recipe_ingredents.recipe_id_fk
+    JOIN ingredients ON recipe_ingredents.ingredent_id_fk = ingredients.id_pk;
+    and well, it works in sqlite, but running this below returns an empty resultset
+    
+    chatgpt has this instead:
+    SELECT ri.quantity || ' ' || ri.measure_type || ' ' || i.type AS ingredient
+    FROM recipe_ingredients ri
+    JOIN ingredients i ON ri.ingredent_id_fk = i.id_pk
+    JOIN recipe r ON ri.recipe_id_fk = r.id
+    WHERE r.id = <your_recipe_id>;
+
+    """
+    #ingredients = db.execute(
+    #    """
+    #    SELECT ri.quantity || ' ' || ri.measure_type || ' ' || i.type AS ingredient
+    #    FROM recipe_ingredents ri
+    #    JOIN ingredients i ON ri.ingredent_id_fk = i.id_pk
+    #    JOIN recipe r ON ri.recipe_id_fk = r.id
+    #    WHERE r.id = ?
+    #    """,(id,)).fetchall()
+    #    """
+    # chatgpt's take
+    ingredients = db.execute("""SELECT recipe_ingredents.quantity, 
+        recipe_ingredents.measure_type, ingredients.type 
+        FROM recipe 
+        JOIN recipe_ingredents ON recipe.id = recipe_ingredents.recipe_id_fk 
+        JOIN ingredients ON recipe_ingredents.ingredent_id_fk = ingredients.id_pk 
+        WHERE recipe.id = ?""", (id,)).fetchall()
+    ingredients = ['1 cup water', '1 ea match']
+    print("ingredients count:", len(ingredients))
+    for ingredient in ingredients:
+        print(ingredient)
+        #print(ingredient['ingredient'])
+        #print(ingredient['quantity'],ingredient['measure_type'], ingredient['type'])
+    #steps=["step 1", "step 2"]
     steps = db.execute(
         'SELECT s.recipe_id_fk, step_num, description'
         ' FROM steps s JOIN recipe r ON s.recipe_id_fk = r.id'
         ' ORDER BY step_num ASC'
     ).fetchall()
-    
+    print("steps:")
+    for step in steps:
+        print(step['description'])
     return render_template('recipe/recipe.html', recipe=recipe, ingredients=ingredients, steps=steps)
 
 # 3. Define the create view function.

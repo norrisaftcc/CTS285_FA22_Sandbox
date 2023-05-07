@@ -55,3 +55,9 @@ VALUES (1, 1, 1, "cup");
 added /recipe/recipe.html which is rendered by /recipe/view/<int:id>
 and it even shows up but as 
 <sqlite3.Row object at 0x0000018D81D9BA70>
+
+10pm
+hacked it to just use a single string per ingredients, not a bridge table. that will suffice.
+
+however, here's the chatgpt convo that almost worked:
+----
